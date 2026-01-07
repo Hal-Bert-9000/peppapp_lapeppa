@@ -11,8 +11,8 @@ const BOT_MAX_TIME = 5;
 
 const AI_NAMES = [
   "Andrew Martin", "Bomb #20", "HAL 9000", "Joshua WOPR", 
-  "MU‑TH‑UR 6000", "Neuromancer", "Nexus‑6", "R. Daneel Olivaw", 
-  "Robbie", "S.A.M. 104", "T‑800"
+  "MU‑TH‑UR 6000", "Neuromancer", "Nexus‑7", "R. Daneel Olivaw", 
+  "Robbie", "SAM 104", "T‑800", "Roy Batty"
 ];
 
 const App: React.FC = () => {
@@ -290,11 +290,9 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden text-white font-sans select-none relative">
-      
+       {/* ---------------  ------------------*/}
       <div className="relative w-full h-full flex items-center justify-center z-10 pointer-events-none">
-        <div className="absolute w-[68vh] h-[68vh] table-felt border-4 border-[#047857] rounded-[4rem] z-0 shadow-[0_0_100px_rgba(0,0,0,0.4)]" />
-        
-        {/* Bot Widgets */}
+        {/* --------------- Bot Widgets ----------------- UI_small ?? ----------- */}
         <div className="absolute top-[3vh] left-1/2 -translate-x-1/2 z-20">
           <PlayerInfoWidget player={gameState.players[2]} isBot={true} isCurrent={gameState.turnIndex === 2 && gameState.gameStatus === 'playing'} />
         </div>
@@ -304,15 +302,15 @@ const App: React.FC = () => {
         <div className="absolute right-[1vw] top-[70vh] z-20">
           <PlayerInfoWidget player={gameState.players[3]} isBot={true} isCurrent={gameState.turnIndex === 3 && gameState.gameStatus === 'playing'} />
         </div>
-      {/* POSIZIONE VALORE MANO */}
+        {/* -------- POSIZIONE VALORE MANO 
         {gameState.currentTrick.length > 0 && (
           <div className="absolute top-[35%] left-[45%] -translate-x-1/2 z-[300]">
              <div className={`animate-pulse slow text-5xl font-extrabold drop-shadow-[0_0_16px_rgba(255,255,255,0.8)] ${currentTrickValue >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                 {currentTrickValue > 0 ? `+${currentTrickValue}` : currentTrickValue}
              </div>
           </div>
-        )}
-      {/* POSIZIONE CARTE SUL TAVOLO */}
+        )}     ---------*/}
+        {/* --------------- POSIZIONE CARTE SUL TAVOLO ------------------*/}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none shadow-none">
           {gameState.currentTrick.map((t) => {
             let positionClasses = "";
@@ -332,7 +330,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* NAVBAR DI GIOCO */}
+      {/* ----------------------- NAVBAR DI GIOCO ------------------------------*/}
       <div className="fixed bottom-3 left-6 z-[300] pointer-events-none">
         <div className="bg-black/85 backdrop-blur-md rounded-xl border border-white/10 px-5 py-2 flex items-center gap-5 shadow-2xl pointer-events-auto">
           <div className="flex flex-col">
@@ -344,18 +342,29 @@ const App: React.FC = () => {
             <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-1">Round</span>
             <span className="font-bold text-base text-yellow-400 leading-none uppercase">{getTranslatedDirection(gameState.passDirection)}</span>
           </div>
+          {/* PUNTEGGIO TRICK -- VALORE MANO */}
+          {gameState.currentTrick.length > 0 && (
+          <div className="flex flex-col">
+            <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-1">Trk-Pt</span>
+            <span className={`animate-pulse slow text-base font-bold ${currentTrickValue >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                {currentTrickValue > 0 ? `+${currentTrickValue}` : currentTrickValue}</span>
+          </div>
+          )}
           {gameState.gameStatus === 'playing' && (
             <>
+            {/* TIME */}
               <div className="w-[1px] h-8 bg-white/10" />
-              <div className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center font-black text-xs transition-all duration-300 ${timeLeft < 10 ? 'border-red-500 text-red-500 animate-pulse' : 'border-white/20 text-white/60'}`}>
-                {timeLeft}s
-              </div>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-1">Time</span>
+                <span className={`font-bold text-base transition-all duration-300 ${timeLeft < 10 ? 'text-red-500 animate-pulse' : 'text-white/95'}`}>
+                {timeLeft}s</span>
+              </div>  
             </>
           )}
         </div>
       </div>
 
-      {/* USER INFO WIDGET */}
+      {/* --------------------- USER INFO WIDGET ---------------------- */}
       <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[300] pointer-events-none">
         <PlayerInfoWidget 
           player={gameState.players[0]} 
@@ -363,7 +372,7 @@ const App: React.FC = () => {
           isCurrent={gameState.turnIndex === 0 && gameState.gameStatus === 'playing'} 
         />
       </div>
-
+      {/* -------------------  DISPOSIZIONE CARTE USER ----------------------*/}
       <div className="fixed bottom-[-85px] w-full flex justify-center z-[250] px-6">
         <div className="flex justify-center -space-x-20 md:-space-x-24 transition-all duration-500">
           {gameState.players[0].hand.map((card, i) => {
@@ -384,7 +393,7 @@ const App: React.FC = () => {
           })}
         </div>
       </div>
-
+      {/* ------------------  PASSA 3 CARTE ---------------------*/}
       {gameState.gameStatus === 'passing' && (
         <div className="fixed inset-0 z-[400] flex items-center justify-center pointer-events-none">
           <div className="bg-black/95 p-6 rounded-2xl border border-yellow-400/50 text-center shadow-[0_0_100px_rgba(0,0,0,0.8)] animate-deal pointer-events-auto max-w-xs transform -translate-y-40">
@@ -393,9 +402,9 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
-
+      {/* ------------------  RICEVI 3 CARTE ---------------------*/}
       {gameState.gameStatus === 'receiving' && (
-        <div className="fixed inset-0 bg-black/95 z-[500] flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/65 z-[500] flex items-center justify-center">
            <div className="bg-black/60 p-10 rounded-3xl border border-white/10 text-center animate-deal shadow-2xl backdrop-blur-xl transform -translate-y-24">
               <h2 className="text-3xl font-extrabold text-emerald-400 mb-8 uppercase tracking-tighter">Hai ricevuto:</h2>
               <div className="flex gap-4 mb-10 justify-center">{gameState.receivedCards.map(c => <PlayingCard key={c.id} card={c} isSmall />)}</div>
@@ -404,7 +413,7 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* POPUP PUNTEGGI */}
+      {/* -------------------  POPUP PUNTEGGI ----------------------*/}
       {gameState.gameStatus === 'scoring' && (
         <div className="fixed inset-0 bg-black/98 z-[600] flex items-center justify-center">
           <div className="w-full max-w-md bg-white/5 border border-white/10 p-8 rounded-3xl animate-deal transform -translate-y-12 backdrop-blur-xl">
@@ -436,17 +445,17 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
-
+      {/* -------------------  DEALING ----------------------*/}
       {gameState.gameStatus === 'dealing' && (
-        <div className="fixed inset-0 bg-black/98 z-[700] flex items-center justify-center">
+        <div className="fixed bottom-[10%] bg-black/98 z-[700] flex items-center justify-center">
           <div className="text-center animate-deal">
-            <h1 className="text-[10rem] font-extrabold tracking-tighter text-emerald-500 leading-none">R{gameState.roundNumber}</h1>
-            <p className="text-xl opacity-40 mb-12 uppercase font-extrabold tracking-[0.5em]">{isUserDealer ? 'SERVI LE CARTE' : `MAZZIERE: ${gameState.players[dealerIndex].name}`}</p>
+            <h1 className="text-[12rem] font-extrabold tracking-tighter text-yellow-400 leading-none">ROUND{gameState.roundNumber}</h1>
+            <p className="text-3xl mb-12 font-extrabold tracking-[0.5em]">{isUserDealer ? 'SERVI LE CARTE' : `SERVE LE CARTE: ${gameState.players[dealerIndex].name}`}</p>
             <button onClick={startNewRound} className="bg-white text-black px-6 py-2 rounded-xl font-extrabold text-3xl shadow-xl hover:scale-105 active:scale-95 transition-all">VAI</button>
           </div>
         </div>
       )}
-
+      {/* -------------------  GAME OVER ----------------------*/}
       {gameState.gameStatus === 'gameOver' && (
         <div className="fixed inset-0 bg-black z-[1000] flex flex-col items-center justify-center p-6">
            <h1 className="text-6xl font-black text-yellow-400 mb-2 uppercase tracking-tighter">Fine Partita</h1>
