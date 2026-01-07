@@ -54,10 +54,10 @@ export const getCardImageUrl = (card: Card): string => {
   let rankCode: string = card.rank;
   if (rankCode === '10') rankCode = '0'; // L'API usa '0' per il 10
   
-  return `https://https://peppapp.lapeppa.com/img/${rankCode}${suitMap[card.suit]}.png`;
+  return `https://peppapp.lapeppa.com/img/${rankCode}${suitMap[card.suit]}.png`;
 };
 
-export const CARD_BACK_URL = 'https://https://peppapp.lapeppa.com/img/back.png';
+export const CARD_BACK_URL = 'https://peppapp.lapeppa.com/img/back.png';
 
 export const getSuitSymbol = (suit: Suit) => {
   switch (suit) {
