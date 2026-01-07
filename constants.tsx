@@ -27,7 +27,7 @@ export const createDeck = (): Card[] => {
   return deck;
 };
 
-export const shuffle = <T,>(array: T[]): T[] => {
+export const shuffle = <T,>(array: T[]): T[] => { 
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -54,10 +54,10 @@ export const getCardImageUrl = (card: Card): string => {
   let rankCode: string = card.rank;
   if (rankCode === '10') rankCode = '0'; // L'API usa '0' per il 10
   
-  return `https://deckofcardsapi.com/static/img/${rankCode}${suitMap[card.suit]}.png`;
+  return `https://https://peppapp.lapeppa.com/img/${rankCode}${suitMap[card.suit]}.png`;
 };
 
-export const CARD_BACK_URL = 'https://deckofcardsapi.com/static/img/back.png';
+export const CARD_BACK_URL = 'https://https://peppapp.lapeppa.com/img/back.png';
 
 export const getSuitSymbol = (suit: Suit) => {
   switch (suit) {
