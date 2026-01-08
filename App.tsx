@@ -255,7 +255,7 @@ const App: React.FC = () => {
   }, [gameState.currentTrick]);
   {/* --------------- COMPOSIZIONE UI_SMALL ------------------*/}
   const PlayerInfoWidget = ({ player, isBot, isCurrent }: { player: Player, isBot: boolean, isCurrent: boolean }) => (
-    <div className={`flex flex-row items-center gap-3 bg-black/65 px-1.5 py-1.5 rounded-xl border ${isCurrent ? 'border-yellow-400 scale-105 shadow-[0_0_15px_rgba(250,204,21,0.3)]' : 'border-white/10'} shadow-xl backdrop-blur-md transition-all duration-300 pointer-events-auto`}>
+    <div className={`flex flex-row items-center gap-2 bg-black/65 px-2 py-2 rounded-xl border ${isCurrent ? 'border-yellow-400 scale-105 shadow-[0_0_15px_rgba(250,204,21,0.3)]' : 'border-white/10'} shadow-xl backdrop-blur-md transition-all duration-300 pointer-events-auto`}>
       <div className="flex flex-col min-w-[70px]">
         <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-0.5">{isBot ? 'Bot' : 'Giocatore'}</span>
         <span className="font-bold text-sm tracking-tight truncate">{player.name}</span>
