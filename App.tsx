@@ -374,7 +374,7 @@ const App: React.FC = () => {
             <div className="w-[1px] h-8 bg-white/10" />
 
             {/* 4. Giocatore */}
-            <div className="flex flex-col items-center w-[140px]">
+            <div className="flex flex-col items-center min-w-[140px] max-w-[160px]">
                 <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-1">Giocatore</span>
                 <span className="font-bold text-xl text-white truncate w-full text-center">{gameState.players[0].name}</span>
             </div>
