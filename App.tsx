@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { GameState, Card, Player, PassDirection } from './types';
 import { createDeck, shuffle } from './constants';
-import { getAiPass, getAiMove } from './services/geminiAi';
 import PlayingCard from './components/PlayingCard';
 
 const TOTAL_ROUNDS = 4;
