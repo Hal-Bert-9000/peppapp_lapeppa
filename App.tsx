@@ -260,20 +260,20 @@ const App: React.FC = () => {
         <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-0.5">{isBot ? 'Bot' : 'Giocatore'}</span>
         <span className="font-bold text-sm tracking-tight truncate">{player.name}</span>
       </div>
+      <div className="flex flex-col items-center">
+        <span className="text-[9px] font-bold opacity-40 uppercase">Rank</span>
+        <span className="font-bold text-yellow-400 text-base">{getRank(player.id)}°</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <span className="text-[9px] font-bold opacity-40 uppercase">Prese</span>
+        <span className="font-bold text-base text-emerald-400">{player.tricksWon}</span>
+      </div>
       <div className="w-[1px] h-6 bg-white/10" />
       <div className="flex flex-col items-center">
         <span className="text-[9px] font-bold opacity-40 uppercase">Punti</span>
         <span className={`font-bold text-base ${player.score >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
           {player.score}
         </span>
-      </div>
-      <div className="flex flex-col items-center">
-        <span className="text-[9px] font-bold opacity-40 uppercase">Prese</span>
-        <span className="font-bold text-base text-emerald-400">{player.tricksWon}</span>
-      </div>
-      <div className="flex flex-col items-center">
-        <span className="text-[9px] font-bold opacity-40 uppercase">Rank</span>
-        <span className="font-bold text-yellow-400 text-base">{getRank(player.id)}°</span>
       </div>
     </div>
   );
