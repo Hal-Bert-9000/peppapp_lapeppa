@@ -253,23 +253,25 @@ const App: React.FC = () => {
     }
     return pts;
   }, [gameState.currentTrick]);
-
+  {/* --------------- COMPOSIZIONE UI_SMALL ------------------*/}
   const PlayerInfoWidget = ({ player, isBot, isCurrent }: { player: Player, isBot: boolean, isCurrent: boolean }) => (
     <div className={`flex flex-row items-center gap-3 bg-black/65 px-4 py-1.5 rounded-xl border ${isCurrent ? 'border-yellow-400 scale-105 shadow-[0_0_15px_rgba(250,204,21,0.3)]' : 'border-white/10'} shadow-xl backdrop-blur-md transition-all duration-300 pointer-events-auto`}>
       <div className="flex flex-col min-w-[70px]">
         <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-0.5">{isBot ? 'Bot' : 'Giocatore'}</span>
         <span className="font-bold text-sm tracking-tight truncate">{player.name}</span>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="w-[1px] h-6 bg-white/10" />
+      <div className="flex flex-col items-center w-[40px]">
         <span className="text-[9px] font-bold opacity-40 uppercase">Rank</span>
         <span className="font-bold text-yellow-400 text-base">{getRank(player.id)}°</span>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="w-[1px] h-6 bg-white/10" />
+      <div className="flex flex-col items-center w-[40px]">
         <span className="text-[9px] font-bold opacity-40 uppercase">Prese</span>
         <span className="font-bold text-base text-emerald-400">{player.tricksWon}</span>
       </div>
       <div className="w-[1px] h-6 bg-white/10" />
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-[40px]">
         <span className="text-[9px] font-bold opacity-40 uppercase">Punti</span>
         <span className={`font-bold text-base ${player.score >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
           {player.score}
