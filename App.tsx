@@ -374,7 +374,7 @@ const App: React.FC = () => {
             <div className="w-[1px] h-8 bg-white/10" />
 
             {/* 4. Giocatore */}
-            <div className="flex flex-col items-center min-w-[140px] max-w-[160px]">
+            <div className="flex flex-col items-center w-[140px]">
                 <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-1">Giocatore</span>
                 <span className="font-bold text-xl text-white truncate w-full text-center">{gameState.players[0].name}</span>
             </div>
@@ -413,21 +413,44 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* -------------------  DISPOSIZIONE CARTE USER ----------------------*/}
-      <div className="fixed bottom-[-85px] w-full flex justify-center z-[250] px-6">
-        <div className="flex justify-center -space-x-20 md:-space-x-24 transition-all duration-500">
+      {/* -------------------  DISPOSIZIONE CARTE USER A VENTAGLIO ----------------------*/}
+      <div className="fixed bottom-[-25px] w-full flex justify-center z-[250] px-6">
+        <div className="flex justify-center -space-x-[5rem] md:-space-x-[6rem] transition-all duration-500">
           {gameState.players[0].hand.map((card, i) => {
+            const total = gameState.players[0].hand.length;
+            const offset = i - (total - 1) / 2;
+            const rotation = offset * 4; 
+            const translateY = (offset * offset) * 1.65;
+
             const isSelected = gameState.players[0].selectedToPass.includes(card.id);
             const isPlayable = gameState.gameStatus === 'playing' && gameState.turnIndex === 0 && (
               !gameState.leadSuit || card.suit === gameState.leadSuit || gameState.players[0].hand.every(c => c.suit !== gameState.leadSuit)
             );
+            
             return (
-              <div key={card.id} className={`transition-all duration-500 transform ${isSelected ? '-translate-y-8 scale-105 z-[350]' : 'hover:-translate-y-16 hover:z-[350] hover:scale-105 z-10'}`} style={{ zIndex: i }}>
-                <div className="scale-110 md:scale-120">
-                  <PlayingCard card={card} noShadow noBorder highlighted={isSelected || (isPlayable && gameState.gameStatus === 'playing')} onClick={() => {
-                    if (gameState.gameStatus === 'passing' && gameState.passDirection !== 'none') toggleSelectToPass(card.id);
-                    if (gameState.gameStatus === 'playing' && isPlayable && !isProcessing) playCard(0, card);
-                  }} />
+              <div 
+                key={card.id} 
+                className="group relative transition-all duration-300" 
+                style={{ 
+                    zIndex: i,
+                    transform: `translateY(${translateY}px) rotate(${rotation}deg)`,
+                    transformOrigin: '50% 120%'
+                }}
+              >
+                <div 
+                    className={`transition-all duration-200 ${isSelected ? '-translate-y-8 scale-110 z-10' : 'hover:-translate-y-12 hover:scale-110 hover:z-10'}`}
+                >
+                    <div className="scale-110 md:scale-120">
+                      <PlayingCard 
+                        card={card} 
+                        noShadow 
+                        highlighted={isSelected || (isPlayable && gameState.gameStatus === 'playing')} 
+                        onClick={() => {
+                            if (gameState.gameStatus === 'passing' && gameState.passDirection !== 'none') toggleSelectToPass(card.id);
+                            if (gameState.gameStatus === 'playing' && isPlayable && !isProcessing) playCard(0, card);
+                        }} 
+                      />
+                    </div>
                 </div>
               </div>
             );
