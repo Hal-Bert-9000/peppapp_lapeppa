@@ -5,7 +5,7 @@ import { createDeck, shuffle } from './constants';
 import { getAiPass, getAiMove } from './services/geminiAi';
 import PlayingCard from './components/PlayingCard';
 
-const TOTAL_ROUNDS = 12;
+const TOTAL_ROUNDS = 4;
 const USER_TURN_TIME = 40;
 const BOT_MAX_TIME = 5;
 
@@ -21,7 +21,7 @@ const App: React.FC = () => {
   const [dealerOffset] = useState(() => Math.floor(Math.random() * 4));
 
   const initialPlayers: Player[] = useMemo(() => [
-    { id: 0, name: 'Tu', hand: [], isHuman: true, score: 0, pointsThisRound: 0, tricksWon: 0, selectedToPass: [] },
+    { id: 0, name: 'Ichram Otrebla', hand: [], isHuman: true, score: 0, pointsThisRound: 0, tricksWon: 0, selectedToPass: [] },
     { id: 1, name: botNames[0], hand: [], isHuman: false, score: 0, pointsThisRound: 0, tricksWon: 0, selectedToPass: [] },
     { id: 2, name: botNames[1], hand: [], isHuman: false, score: 0, pointsThisRound: 0, tricksWon: 0, selectedToPass: [] },
     { id: 3, name: botNames[2], hand: [], isHuman: false, score: 0, pointsThisRound: 0, tricksWon: 0, selectedToPass: [] },
@@ -254,6 +254,7 @@ const App: React.FC = () => {
     return pts;
   }, [gameState.currentTrick]);
 
+  {/*------------------ ALL USER INTERFACE -----------------*/} 
   const PlayerInfoWidget = ({ player, isBot, isCurrent }: { player: Player, isBot: boolean, isCurrent: boolean }) => (
     <div className={`flex flex-row items-center gap-3 bg-black/85 px-4 py-1.5 rounded-xl border ${isCurrent ? 'border-yellow-400 scale-105 shadow-[0_0_15px_rgba(250,204,21,0.3)]' : 'border-white/10'} shadow-xl backdrop-blur-md transition-all duration-300 pointer-events-auto`}>
       <div className="flex flex-col min-w-[70px]">
@@ -261,20 +262,20 @@ const App: React.FC = () => {
         <span className="font-bold text-sm tracking-tight truncate">{player.name}</span>
       </div>
       <div className="w-[1px] h-6 bg-white/10" />
-      <div className="flex flex-col items-center">
-        <span className="text-[9px] font-bold opacity-40 uppercase">Punti</span>
-        <span className={`font-bold text-base ${player.score >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-          {player.score}
-        </span>
-      </div>
-      <div className="flex flex-col items-center">
-        <span className="text-[9px] font-bold opacity-40 uppercase">Prese</span>
-        <span className="font-bold text-base text-emerald-400">{player.tricksWon}</span>
-      </div>
-      <div className="flex flex-col items-center">
-        <span className="text-[9px] font-bold opacity-40 uppercase">Rank</span>
-        <span className="font-bold text-yellow-400 text-base">{getRank(player.id)}°</span>
-      </div>
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] font-bold opacity-40 uppercase">Punti</span>
+            <span className={`font-bold text-base ${player.score >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+              {player.score}
+            </span>
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] font-bold opacity-40 uppercase">Prese</span>
+            <span className="font-bold text-base text-emerald-400">{player.tricksWon}</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] font-bold opacity-40 uppercase">Rank</span>
+            <span className="font-bold text-yellow-400 text-base">{getRank(player.id)}°</span>
+          </div>
     </div>
   );
 
@@ -292,7 +293,7 @@ const App: React.FC = () => {
     <div className="h-screen w-screen flex flex-col items-center justify-center overflow-hidden text-white font-sans select-none relative">
        {/* ---------------  ------------------*/}
       <div className="relative w-full h-full flex items-center justify-center z-10 pointer-events-none">
-        {/* --------------- Bot Widgets ----------------- UI_small ?? ----------- */}
+        {/* --------------- POSIZIONE ----- UI_small ---- TOP / LEFT / RIGHT ------- */}
         <div className="absolute top-[3vh] left-1/2 -translate-x-1/2 z-20">
           <PlayerInfoWidget player={gameState.players[2]} isBot={true} isCurrent={gameState.turnIndex === 2 && gameState.gameStatus === 'playing'} />
         </div>
@@ -335,7 +336,7 @@ const App: React.FC = () => {
         <div className="bg-black/85 backdrop-blur-md rounded-xl border border-white/10 px-5 py-2 flex items-center gap-5 shadow-2xl pointer-events-auto">
           <div className="flex flex-col">
             <span className="text-[9px] font-bold uppercase opacity-40 leading-none mb-1">Mano</span>
-            <span className="font-bold text-base text-white leading-none">{gameState.roundNumber} / 12</span>
+            <span className="font-bold text-base text-white leading-none">{gameState.roundNumber} / {TOTAL_ROUNDS}</span>
           </div>
           <div className="w-[1px] h-8 bg-white/10" />
           <div className="flex flex-col">
@@ -398,7 +399,7 @@ const App: React.FC = () => {
         <div className="fixed inset-0 z-[400] flex items-center justify-center pointer-events-none">
           <div className="bg-black/95 p-6 rounded-2xl border border-yellow-400/50 text-center shadow-[0_0_100px_rgba(0,0,0,0.8)] animate-deal pointer-events-auto max-w-xs transform -translate-y-40">
             <h2 className="text-xl font-extrabold mb-1 text-yellow-400 uppercase tracking-tighter leading-none">PASSA 3 CARTE A {getTranslatedDirection(gameState.passDirection).toUpperCase()}</h2>
-            <button disabled={gameState.players[0].selectedToPass.length !== 3} onClick={executePass} className={`w-full mt-4 py-3 rounded-xl font-extrabold text-lg transition-all duration-300 ${gameState.players[0].selectedToPass.length === 3 ? 'bg-yellow-400 text-black shadow-lg cursor-pointer hover:bg-white' : 'bg-white/5 text-white/10 cursor-not-allowed'}`}>{gameState.players[0].selectedToPass.length === 3 ? 'CONFERMA' : `${3 - gameState.players[0].selectedToPass.length} DA SCEGLIERE`}</button>
+            <button disabled={gameState.players[0].selectedToPass.length !== 3} onClick={executePass} className={`w-full mt-4 py-3 rounded-xl font-extrabold text-lg transition-all duration-300 ${gameState.players[0].selectedToPass.length === 3 ? 'bg-yellow-400 text-black shadow-lg cursor-pointer hover:bg-white' : 'bg-white/5 text-white/50 cursor-not-allowed'}`}>{gameState.players[0].selectedToPass.length === 3 ? 'CONFERMA' : `${3 - gameState.players[0].selectedToPass.length} DA SCEGLIERE`}</button>
           </div>
         </div>
       )}
